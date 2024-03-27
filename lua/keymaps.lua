@@ -1,4 +1,3 @@
-
 local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = true }
@@ -31,19 +30,23 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
--- Close buffers
-keymap("n", "<leader>c", "<cmd>Bdelete!<CR>", opts)
 --
 -- Navigate buffers
 keymap("n", "<C-l>", ":bnext<CR>", opts)
 keymap("n", "<C-h>", ":bprevious<CR>", opts)
+
+-- Vertical split
+keymap("n", "<leader>vs", ":vsplit<CR>", opts)
 --
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", opts)
 keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+keymap("n", "<C-Right>", ":vertical resize -2<CR>", opts)
+keymap("n", "<C-Left>", ":vertical resize +2<CR>", opts)
 --
+-- Close buffers
+keymap("n", "<leader>c", ":bdelete<CR>", opts)
+
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -54,11 +57,16 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set("v", "<", "<gv", opts)
 vim.keymap.set("v", ">", ">gv", opts)
 
+-- Git
+keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
 
--- Lsp
+--Lsp
+keymap("n", "<leader>f", "<cmd>lua require'conform'.format({lsp_fallback=true})<cr>", opts)
 --
 --
 --
+keymap('n', 'zR', "<cmd>lua require('ufo').openAllFolds()<cr>", opts)
+keymap('n', 'zM', "<cmd>lua require('ufo').closeAllFolds()<cr>", opts)
 --
 -- Better paste
 keymap("v", "p", '"_dP', opts)
@@ -79,3 +87,16 @@ keymap("o", "<S-h>", "^", opts)
 
 -- <leader>, saves
 keymap("n", "<leader>w", ":w<CR>", opts)
+
+keymap("n", "<leader>ha", "<cmd>lua require('harpoon.mark').add_file()<cr>", opts)
+keymap("n", "<leader>he", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
+keymap("n", "<leader>hj", "<cmd>lua require('harpoon.ui').nav_next()<cr>", opts)
+keymap("n", "<leader>hk", "<cmd>lua require('harpoon.ui').nav_prev()<cr>", opts)
+
+keymap("n", "<leader>h1", "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", opts)
+keymap("n", "<leader>h2", "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", opts)
+keymap("n", "<leader>h3", "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", opts)
+keymap("n", "<leader>h4", "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", opts)
+
+
+
