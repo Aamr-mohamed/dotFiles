@@ -1,5 +1,6 @@
 local M = {
   "nvim-lualine/lualine.nvim",
+
   event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
 }
 
@@ -34,9 +35,9 @@ function M.config()
       always_divide_middle = true,
     },
     sections = {
-      lualine_a = { },
+      lualine_a = { "" },
       lualine_b = { "branch" },
-      lualine_c = { {'filename', path = 1} },
+      lualine_c = { "buffers" },
       lualine_x = { diagnostics },
       lualine_y = { location },
       lualine_z = { },

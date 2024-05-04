@@ -29,46 +29,43 @@ local M = {
   },
   event = {
     "InsertEnter",
-    "CmdlineEnter",
   },
 }
+
 
 function M.config()
   local cmp = require "cmp"
   local luasnip = require "luasnip"
+  luasnip.filetype_extend("typescript", { "javascript" })
+  luasnip.filetype_extend("typescriptreact", { "javascript" })
   require("luasnip/loaders/from_vscode").lazy_load()
 
-  local check_backspace = function()
-    local col = vim.fn.col "." - 1
-    return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-  end
-
   local kind_icons = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "",
+    Text = "󰉿",
+    Method = "󰆧",
+    Function = "󰆧",
+    Constructor = "󰆧",
     Field = "",
     Variable = "",
-    Class = "",
+    Class = "󰌗",
     Interface = "",
-    Module = "",
+    Module = "󰅩",
     Property = "",
     Unit = "",
-    Value = "",
+    Value = "󰎠",
     Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
+    Keyword = "󰉨",
+    Snippet = "󰃐",
+    Color = "󰏘",
+    File = "󰈙",
     Reference = "",
-    Folder = "",
+    Folder = "󰉋",
     EnumMember = "",
-    Constant = "",
+    Constant = "󰇽",
     Struct = "",
     Event = "",
-    Operator = "",
-    TypeParameter = "",
+    Operator = "󰆕",
+    TypeParameter = "󰊄",
   }
 
   cmp.setup {
@@ -77,16 +74,31 @@ function M.config()
         luasnip.lsp_expand(args.body) -- For `luasnip` users.
       end,
     },
-   mapping = cmp.mapping.preset.insert {
-      ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+    mapping = cmp.mapping.preset.insert {
+     -- ["<C-Space>"] = cmp.mapping(cmp.mapping.complete()),
       ["<C-e>"] = cmp.mapping {
         i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
+	   c = cmp.mapping.close(),
+
       },
-      -- Accept currently selected item. If none selected, `select` first item.
-      -- Set `select` to `false` to only confirm explicitly selected items.
-      ["<CR>"] = cmp.mapping.confirm { select = true },
-    },    sources = {
+	  ["<C-y>"] = cmp.mapping.confirm {select=true}
+    },
+    formatting = {
+      fields = { "kind", "abbr", "menu" },
+      format = function(entry, vim_item)
+        vim_item.kind = kind_icons[vim_item.kind]
+        vim_item.menu = ({
+          nvim_lsp = "",
+          nvim_lua = "",
+          luasnip = "",
+          buffer = "",
+          path = "",
+          emoji = "",
+        })[entry.source.name]
+        return vim_item
+      end,
+    },
+    sources = {
       { name = "nvim_lsp" },
       { name = "nvim_lua" },
       { name = "luasnip" },
