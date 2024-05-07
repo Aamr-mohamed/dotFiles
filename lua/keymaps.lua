@@ -3,7 +3,7 @@ local keymap = vim.keymap.set
 local opts = { silent = true }
 
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
+-- keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
@@ -46,12 +46,7 @@ keymap("n", "<C-Left>", ":vertical resize +2<CR>", opts)
 --
 -- Close buffers
 keymap("n", "<leader>c", ":bdelete<CR>", opts)
-
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+keymap("t", "<NUL>",  "<C-Space>")
 
 -- Stay in indent mode
 vim.keymap.set("v", "<", "<gv", opts)
@@ -74,6 +69,9 @@ keymap("v", "p", '"_dP', opts)
 -- oil keymap
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
+-- Comment
+keymap("n", "<C-_>", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
+keymap("x", "<C-_>", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
 
 -- start and end of line
 keymap("n", "<S-l>", "$", opts)
