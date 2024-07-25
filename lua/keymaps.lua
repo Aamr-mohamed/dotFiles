@@ -4,7 +4,7 @@ local opts = { silent = true }
 
 --Remap space as leader key
 -- keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
@@ -31,70 +31,81 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 --  Use CTRL+<hjkl> to switch between windows
 --
 --
+--
 -- Navigate buffers
-keymap("n", "<C-l>", ":bnext<CR>", opts)
-keymap("n", "<C-h>", ":bprevious<CR>", opts)
+keymap('n', '<C-l>', ':bnext<CR>', opts)
+keymap('n', '<C-h>', ':bprevious<CR>', opts)
 
 -- Vertical split
-keymap("n", "<leader>vs", ":vsplit<CR>", opts)
+keymap('n', '<leader>vs', ':vsplit<CR>', opts)
 --
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize +2<CR>", opts)
+keymap('n', '<C-Up>', ':resize -2<CR>', opts)
+keymap('n', '<C-Down>', ':resize +2<CR>', opts)
+keymap('n', '<C-Right>', ':vertical resize -2<CR>', opts)
+keymap('n', '<C-Left>', ':vertical resize +2<CR>', opts)
 --
--- Close buffers
-keymap("n", "<leader>c", ":bdelete<CR>", opts)
-keymap("t", "<NUL>",  "<C-Space>")
 
 -- Stay in indent mode
-vim.keymap.set("v", "<", "<gv", opts)
-vim.keymap.set("v", ">", ">gv", opts)
+vim.keymap.set('v', '<', '<gv', opts)
+vim.keymap.set('v', '>', '>gv', opts)
 
+--Move selected line(s) up/down
+vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv",opts)
+vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv",opts)
+
+-- Select all
+vim.keymap.set("n", "==", "gg<S-v>G")
 -- Git
-keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
+keymap('n', '<leader>gg', '<cmd>lua _LAZYGIT_TOGGLE()<CR>', opts)
 
 --Lsp
-keymap("n", "<leader>f", "<cmd>lua require'conform'.format({lsp_fallback=true})<cr>", opts)
+keymap('n', '<leader>f', "<cmd>lua require'conform'.format({lsp_fallback=true})<cr>", opts)
 --
 --
---
-keymap('n', 'zR', "<cmd>lua require('ufo').openAllFolds()<cr>", opts)
-keymap('n', 'zM', "<cmd>lua require('ufo').closeAllFolds()<cr>", opts)
+-- keymap('n', 'zR', "<cmd>lua require('ufo').openAllFolds()<cr>", opts)
+-- keymap('n', 'zM', "<cmd>lua require('ufo').closeAllFolds()<cr>", opts)
 --
 -- Better paste
-keymap("v", "p", '"_dP', opts)
+keymap('v', 'p', '"_dP', opts)
 
 -- oil keymap
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 
 -- Comment
-keymap("n", "<C-_>", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
-keymap("x", "<C-_>", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
+keymap('n', '<C-/>', "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
+keymap('x', '<C-/>', "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
 
 -- start and end of line
-keymap("n", "<S-l>", "$", opts)
-keymap("n", "<S-h>", "^", opts)
-keymap("v", "<S-l>", "$", opts)
-keymap("v", "<S-h>", "^", opts)
-keymap("x", "<S-l>", "$", opts)
-keymap("x", "<S-h>", "^", opts)
-keymap("o", "<S-l>", "$", opts)
-keymap("o", "<S-h>", "^", opts)
+keymap('n', '<S-l>', '$', opts)
+keymap('n', '<S-h>', '^', opts)
+keymap('v', '<S-l>', '$', opts)
+keymap('v', '<S-h>', '^', opts)
+keymap('x', '<S-l>', '$', opts)
+keymap('x', '<S-h>', '^', opts)
+keymap('o', '<S-l>', '$', opts)
+keymap('o', '<S-h>', '^', opts)
+
+-- center screen after these commands
+keymap("n", "<C-d>", "<C-d>zz", opts)
+keymap("n", "<C-u>", "<C-u>zz", opts)
+keymap("n", "n", "nzzzv", opts)
+keymap("n", "N", "Nzzzv", opts)
+keymap("n", "<leader>sr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
+
+-- Close buffers
+keymap("n", "<C-c>", ":bp|bd #<CR>", opts)
 
 -- <leader>, saves
-keymap("n", "<leader>w", ":w<CR>", opts)
+keymap('n', '<leader>w', ':w<CR>', opts)
+-- keymap('n', '<leader>q', ':quit<Return>', opts)
 
-keymap("n", "<leader>ha", "<cmd>lua require('harpoon.mark').add_file()<cr>", opts)
-keymap("n", "<leader>he", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
-keymap("n", "<leader>hj", "<cmd>lua require('harpoon.ui').nav_next()<cr>", opts)
-keymap("n", "<leader>hk", "<cmd>lua require('harpoon.ui').nav_prev()<cr>", opts)
+keymap('n', '<leader>ha', "<cmd>lua require('harpoon.mark').add_file()<cr>", opts)
+keymap('n', '<leader>he', "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
+keymap('n', '<leader>hj', "<cmd>lua require('harpoon.ui').nav_next()<cr>", opts)
+keymap('n', '<leader>hk', "<cmd>lua require('harpoon.ui').nav_prev()<cr>", opts)
 
-keymap("n", "<leader>h1", "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", opts)
-keymap("n", "<leader>h2", "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", opts)
-keymap("n", "<leader>h3", "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", opts)
-keymap("n", "<leader>h4", "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", opts)
-
-
-
+keymap('n', '<leader>h1', "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", opts)
+keymap('n', '<leader>h2', "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", opts)
+keymap('n', '<leader>h3', "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", opts)
+keymap('n', '<leader>h4', "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", opts)
